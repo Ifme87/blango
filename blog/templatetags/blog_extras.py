@@ -14,7 +14,8 @@ def author_details(author):
       return ""
 
   if author.first_name and author.last_name:
-      name = escape(f"{author.first_name} {author.last_name}") #escape() - safe, string will be interpreted as a string, no matter if html is in
+      #escape() - safe, string will be interpreted as a string, no matter if html is in
+      name = escape(f"{author.first_name} {author.last_name}") 
   else:
       name = escape(f"{author.username}")
 
@@ -26,4 +27,6 @@ def author_details(author):
       prefix = ""
       suffix = ""
 
-  return mark_safe(f"{prefix}{name}{suffix}") #mark_safe - later injected html will be interpreted as html, but not a text
+  #mark_safe - later injected html will be interpreted as html, but not a text
+  return mark_safe(f"{prefix}{name}{suffix}") 
+        

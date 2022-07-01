@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
 from django import template
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
+#from django.utils.html import escape
+#from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 
 user_model = get_user_model()
 register = template.Library()
@@ -14,19 +15,19 @@ def author_details(author):
       return ""
 
   if author.first_name and author.last_name:
-      #escape() - safe, string will be interpreted as a string, no matter if html is in
-      name = escape(f"{author.first_name} {author.last_name}") 
+      #string can be inside escape() - safe, string will be interpreted as a string, no matter if html is in
+      name = f"{author.first_name} {author.last_name}"
   else:
-      name = escape(f"{author.username}")
+      name = f"{author.username}"
 
   if author.email:
-      email = escape(author.email)
-      prefix = f'<a href="mailto:{email}">'
-      suffix = "</a>"
+      prefix = format_html('<a href="mailto:{}">', author.email)
+      suffix = format_html("</a>")
   else:
       prefix = ""
       suffix = ""
 
-  #mark_safe - later injected html will be interpreted as html, but not a text
-  return mark_safe(f"{prefix}{name}{suffix}") 
+  #except format_html, there can be mark_safe - later injected html will be interpreted as html, but not a text
+  #format_html works 1) as str.format and escape every var 2) mark_safe == format_html 
+  return format_html('{}{}{}', prefix, name, suffix) 
         

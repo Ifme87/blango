@@ -9,10 +9,13 @@ register = template.Library()
 
 
 @register.filter#(name="author_details") - to customize name of the func
-def author_details(author):
+def author_details(author, current_user=None):
   if not isinstance(author, user_model):
       # return empty string as safe default
       return ""
+
+  if author == current_user:
+      return format_html("<strong>me</strong>")
 
   if author.first_name and author.last_name:
       #string can be inside escape() - safe, string will be interpreted as a string, no matter if html is in

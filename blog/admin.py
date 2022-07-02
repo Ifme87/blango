@@ -4,7 +4,7 @@ from blog.models import Tag, Post, Comment
 
 class PostAdmin(admin.ModelAdmin):
   prepopulated_fields = {"slug": ("title",)}
-  list_display = ("slug", "published_at")
+  list_display = ("slug", "published_at", "id")
 
 # Register your models here.
 

@@ -166,7 +166,7 @@ class Dev(Configuration):
             "level": "DEBUG",
         },
     }
-
+    
 
 class Prod(Dev):
     DEBUG = False

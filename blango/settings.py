@@ -173,6 +173,8 @@ class Dev(Configuration):
     }
 
     AUTH_USER_MODEL = "blango_auth.User"
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    ACCOUNT_ACTIVATION_DAYS = 7
     
 
 class Prod(Dev):

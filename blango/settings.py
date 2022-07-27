@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from configurations import Configuration
 from configurations import values
-import os
-import dj_database_url
 
 
 class Dev(Configuration):
@@ -31,10 +29,10 @@ class Dev(Configuration):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = values.BooleanValue(True)
 
-    ALLOWED_HOSTS = values.ListValue(["localhost", "0.0.0.0", ".codio.io"])
-    X_FRAME_OPTIONS = 'ALLOW-FROM ' + os.environ.get('CODIO_HOSTNAME') + '-8000.codio.io'
+    ALLOWED_HOSTS = values.ListValue([ '*' ])
+    X_FRAME_OPTIONS = 'ALLOW-FROM ' + '127.0.0.1'
     CSRF_COOKIE_SAMESITE = None
-    CSRF_TRUSTED_ORIGINS = [os.environ.get('CODIO_HOSTNAME') + '-8000.codio.io']
+    # CSRF_TRUSTED_ORIGINS = '127.0.0.1'
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SAMESITE = 'None'
@@ -44,6 +42,8 @@ class Dev(Configuration):
     # Application definition
 
     INSTALLED_APPS = [
+        'blango_auth',
+
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -51,9 +51,11 @@ class Dev(Configuration):
         'django.contrib.messages',
         'django.contrib.sites',
         'django.contrib.staticfiles',
+        'django.contrib.humanize',
 
-        'blango_auth',
         'blog',
+        'polls',
+        'pics',
         'crispy_forms',
         'crispy_bootstrap5',
         'debug_toolbar',

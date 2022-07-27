@@ -54,7 +54,7 @@ def author_details(author, current_user=None):
       #string can be inside escape() - safe, string will be interpreted as a string, no matter if html is in
       name = f"{author.first_name} {author.last_name}"
   else:
-      name = f"{author.username}"
+      name = f"{author.email}"
 
   if author.email:
       prefix = format_html('<a href="mailto:{}">', author.email)

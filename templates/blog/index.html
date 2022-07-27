@@ -10,9 +10,13 @@
             <p>{{ post.summary }}</p>
             <p>
                 ({{ post.content|wordcount }} words)
-                <a href="{% url 'blog-post-detail' post.slug %}">Read More</a
+                <a href="{% url 'blog:blog-post-detail' post.slug %}">Read More</a>
             </p>
         {% endcol %}
     {% endrow %}
     {% endfor %}
+    {% if user.is_active %}
+        <button class="w-25 mb-2 btn btn-lg rounded-4 btn-primary" type="submit" onclick="location.href='{% url "blog:create-post" %}';">Create Thread</button></a>
+        <!-- button class="w-100 mb-2 btn btn-lg rounded-4 btn-light" type="button" onclick="location.href='#';">Sign Up</button -->
+    {% endif %}    
 {% endblock %}

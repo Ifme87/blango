@@ -6,11 +6,17 @@
         <h5>Posted by {{ comment.creator }} at {{ comment.created_at|date:"M, d Y h:i" }}</h5>
     {% endcol %}
 {% endrow %}
+
 {% row "border-bottom" %}
+    
     {% col %}
-        <p>{{ comment.content }}</p>
+ 
+                <p>{{ comment.content }}</p>
+
     {% endcol %}
+    
 {% endrow %}
+
 {% empty %}
     {% row "border-top border-bottom" %}
         {% col %}
@@ -18,10 +24,15 @@
         {% endcol %}
     {% endrow %}
 {% endfor %}
+
 {% if request.user.is_active %}
+<div class="row">
+    <div class="col-6">
 {% row "mt-4" %}
     {% col %}
         {% crispy comment_form %}
     {% endcol %}
 {% endrow %}
 {% endif %}
+</div>
+</div>

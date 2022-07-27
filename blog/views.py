@@ -1,7 +1,9 @@
+from re import template
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from blog.models import Post
-from blog.forms import CommentForm
+from blog.forms import CommentForm, CreateThreadForm
+from django.template.defaultfilters import slugify
 import logging
 #from django.views.decorators.cache import cache_page
 #from django.views.decorators.vary import vary_on_cookie
@@ -47,6 +49,28 @@ def post_detail(request, slug):
     return render(
         request, "blog/post-detail.html", {"post": post, "comment_form": comment_form}
     )
+
+
+def create_post(request):
+    if request.user.is_active:
+        if request.method == "POST":
+            create_form = CreateThreadForm(request.POST)
+
+            if create_form.is_valid():
+                new_post = create_form.save(commit=False)
+                new_post.author = request.user
+                new_post.slug = slugify(new_post.title)
+                new_post.save()
+                logger.info(f"Created Post {new_post.title} for user {request.user.username}")
+                return redirect("blog:index")
+        else:
+            create_form = CreateThreadForm()
+    else:
+        create_form = None
+    return render(
+        request, "blog/post-creation.html", {"create_form": create_form}
+    )
+
 
 def get_ip(request):
   from django.http import HttpResponse

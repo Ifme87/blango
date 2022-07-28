@@ -1,10 +1,10 @@
-from re import template
+import logging
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from blog.models import Post
-from blog.forms import CommentForm, CreateThreadForm
+from blog.forms import CommentForm, CreateThreadForm, CreateTagForm
 from django.template.defaultfilters import slugify
-import logging
+from django.http import Http404, HttpResponse
 #from django.views.decorators.cache import cache_page
 #from django.views.decorators.vary import vary_on_cookie
 #from django.views.decorators.vary import vary_on_headers
@@ -14,10 +14,8 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 #@cache_page(300)
-#@vary_on_cookie                            #to have effect of different caches for different user sessions
-    #or @vary_on_headers("Cookie")
+#@vary_on_cookie (or @vary_on_headers("Cookie"))    #to have effect of different caches for different user sessions
 def index(request):
-#    from django.http import HttpResponse
 #    logger.debug("no cache")               #shouldn't be executed if cached
 #    return HttpResponse(str(request.user).encode("ascii"))
     posts = (
@@ -28,6 +26,7 @@ def index(request):
     )
     logger.debug("Got %d posts", len(posts))
     return render(request, "blog/index.html", {"posts": posts})
+
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -40,7 +39,7 @@ def post_detail(request, slug):
                 comment.content_object = post
                 comment.creator = request.user
                 comment.save()
-                logger.info("Created comment on Post %d for user %s", post.pk, request.user)
+                logger.info(f"Created comment on Post {post.title} for user {request.user.email}")
                 return redirect(request.path_info)
         else:
             comment_form = CommentForm()
@@ -61,6 +60,7 @@ def create_post(request):
                 new_post.author = request.user
                 new_post.slug = slugify(new_post.title)
                 new_post.save()
+                create_form.save_m2m() #save m2m after new_post has id, because here we have ManyToManyField
                 logger.info(f"Created Post {new_post.title} for user {request.user.username}")
                 return redirect("blog:index")
         else:
@@ -72,6 +72,24 @@ def create_post(request):
     )
 
 
+def create_tag(request):
+    if request.user.is_active:
+        if request.method == "POST":
+            create_tag = CreateTagForm(request.POST)
+
+            if create_tag.is_valid():
+                new_tag = create_tag.save(commit=False)
+                new_tag.save()
+                logger.info(f"Created Tag '{new_tag.value}' from user {request.user.username}")
+                return redirect("blog:create-post")
+        else:
+            create_tag = CreateTagForm()
+    else:
+        raise Http404
+    return render(
+        request, "blog/tag-creation.html", {"create_tag": create_tag}
+    )
+
+
 def get_ip(request):
-  from django.http import HttpResponse
-  return HttpResponse(request.META['REMOTE_ADDR'])
+    return HttpResponse(request.META['REMOTE_ADDR'])

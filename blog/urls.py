@@ -1,14 +1,15 @@
-import blog.views
+from . import views
 import debug_toolbar
 from django.urls import path, include
 from django.conf import settings
 
 app_name = 'blog'
 urlpatterns = [
-    path('', blog.views.index, name='index'),
-    path('post/<slug>/', blog.views.post_detail, name="blog-post-detail"),
-    path('ip/', blog.views.get_ip),
-    path('create/', blog.views.create_post, name="create-post")
+    path('', views.index, name='index'),
+    path('post/<slug>/', views.post_detail, name="blog-post-detail"),
+    path('ip/', views.get_ip),
+    path('create/', views.create_post, name="create-post"),
+    path("add_tag/", views.create_tag, name="so_tag_add"),
 ]
 
 if settings.DEBUG:

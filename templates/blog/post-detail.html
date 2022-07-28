@@ -4,6 +4,7 @@
 
 {% block content %}
 <h2>{{ post.title }}</h2>
+<h6>Tags: {% for tag in post.tags.values %} '{{ tag.value }}' {% endfor %}</h6>
 
 {% row %}
     {% col %}

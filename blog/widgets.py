@@ -19,14 +19,23 @@ class RelatedFieldWidgetCanAdd(widgets.SelectMultiple):
 
     def render(self, name, value, *args, **kwargs):
         self.related_url = reverse(self.related_url)
-        output = [super(RelatedFieldWidgetCanAdd, self).render(name, value, *args, **kwargs)]
-
-        #adding "plus" button
-        output.insert(0, '<div class="row"><div class="col">')
-        output.append('</div><div class="col">')
-        output.append('<a href="%s" class="add-another" id="add_id_%s"> ' % \
-            (self.related_url, name))
-        output.append('<img src="%simg/plus.png" width="25" height="25" style="vertical-align:middle"></a>' % (settings.STATIC_URL))
-        output.append('</div></div>')
-
+        output = ['<div class="row"><div class="col">']
+        output.append(super(RelatedFieldWidgetCanAdd, self).render(name, value, *args, **kwargs))
+        #output.insert(
+        #    0, 
+        #    '<div class="row"><div class="col">'
+        #)
+        output.append(
+            '</div>'
+            '<div class="col">'
+            '<a href="%s" class="add-another" id="add_id_%s"> ' % (self.related_url, name)
+        )
+        output.append(
+            '<img src="%simg/plus.png" width="25" height="25" style="vertical-align:middle">' % (settings.STATIC_URL)
+        )
+        output.append(
+            '</a>'
+            '</div>'
+            '</div>'
+        )
         return mark_safe(''.join(output))

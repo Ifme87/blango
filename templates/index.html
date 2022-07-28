@@ -8,7 +8,7 @@
     <main class="container">
       <div class="modal-header p-5 pb-4 border-bottom-0">
         {% if user.is_authenticated %}
-        <h1>Hello to the Hello World site, {{ user.username }}</h1>
+        <h1>Hello to the Hello World site, {{ user.email }}</h1>
         {% else %}
         <h1>Hello World site! Please login or register.</h1>
         {% endif %}

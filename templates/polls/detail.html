@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block title %}
+    <title>{{ object.owner }}'s Answers</title>
+{% endblock %}
+
 {% block content %}
     {% if object %}
     <ul> 

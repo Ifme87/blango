@@ -5,8 +5,9 @@ from blog.models import Post
 from blog.forms import CommentForm, CreateThreadForm, CreateTagForm
 from django.template.defaultfilters import slugify
 from django.http import Http404, HttpResponse
-#from django.views.decorators.cache import cache_page
-#from django.views.decorators.vary import vary_on_cookie
+from django.contrib import messages
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 #from django.views.decorators.vary import vary_on_headers
 
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 #@cache_page(300)
-#@vary_on_cookie (or @vary_on_headers("Cookie"))    #to have effect of different caches for different user sessions
+#@vary_on_cookie #(or @vary_on_headers("Cookie")) - to have effect of different caches for different user sessions
 def index(request):
 #    logger.debug("no cache")               #shouldn't be executed if cached
 #    return HttpResponse(str(request.user).encode("ascii"))
@@ -29,7 +30,7 @@ def index(request):
 
 
 def post_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug)
+    post = get_object_or_404(Post, slug=slug) 
     if request.user.is_active:
         if request.method == "POST":
             comment_form = CommentForm(request.POST)
@@ -39,6 +40,7 @@ def post_detail(request, slug):
                 comment.content_object = post
                 comment.creator = request.user
                 comment.save()
+                messages.success(request, f"New comment added!")
                 logger.info(f"Created comment on Post {post.title} for user {request.user.email}")
                 return redirect(request.path_info)
         else:
@@ -61,6 +63,7 @@ def create_post(request):
                 new_post.slug = slugify(new_post.title)
                 new_post.save()
                 create_form.save_m2m() #save m2m after new_post has id, because here we have ManyToManyField
+                messages.success(request, f"New thread \"{new_post.title}\" is created!")
                 logger.info(f"Created Post {new_post.title} for user {request.user.username}")
                 return redirect("blog:index")
         else:
@@ -81,6 +84,7 @@ def create_tag(request):
                 new_tag = create_tag.save(commit=False)
                 new_tag.save()
                 logger.info(f"Created Tag '{new_tag.value}' from user {request.user.username}")
+                messages.success(request, f"Tag \"{new_tag.value}\" is created!")
                 return redirect("blog:create-post")
         else:
             create_tag = CreateTagForm()

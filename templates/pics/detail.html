@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %} <!-- https://docs.djangoproject.com/en/3.0/ref/contrib/humanize -->
+
 {% block head %}
     <style>
         .overlay{
@@ -14,6 +15,7 @@
         }
     </style>
 {% endblock %}
+
 {% block content %}
     {% if pic.content_type %}
         <div id="overlay" class="overlay" style="text-align: center;"

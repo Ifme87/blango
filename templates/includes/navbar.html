@@ -53,10 +53,10 @@
                 </div>
             </div>
 {% else %}
-                <div class="col-md-7 text-end">
-                    <button type="button" class="btn btn-outline-primary me-2" onclick="location.href='{% url "login" %}';">Sign In</button>
-                    <button type="button" class="btn btn-primary" onclick="location.href='{% url "django_registration_register" %}';">Sign Up</button>
-                </div>
+            <div class="col-md-7 text-end">
+                <button type="button" class="btn btn-outline-primary me-2" onclick="location.href='{% url "login" %}';">Sign In</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='{% url "django_registration_register" %}';">Sign Up</button>
+            </div>
 {% endif %}
         </div>
     </div>

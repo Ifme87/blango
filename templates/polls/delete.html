@@ -5,16 +5,11 @@
 {% endblock %}
     
 {% block content %}
-
-<h3>Answers:</h3>
-
-<h1>Delete Answer</h1>
-
-<p>Are you sure you want to delete the answer?</p>
-
-<form action="" method="POST">
-  {% csrf_token %}
-  <input type="submit" value="Yes, delete.">
-</form>
-
+    <h3>Answers:</h3>
+    <h1>Delete Answer</h1>
+    <p>Are you sure you want to delete the answer?</p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Yes, delete.">
+    </form>
 {% endblock %}

@@ -1,40 +1,38 @@
 {% extends 'base.html' %}
-
 {% block title %}
-    <title>Login</title>
+<title>Login</title>
 {% endblock %}
-    
 {% block content %}
 <p>
-  <form action="" method="post">
+<form action="" method="post">
     {% csrf_token %} <!--basic security for POST method forms from Django fw -->
     <div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSignin">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content rounded-5 shadow">
-          <div class="modal-header p-5 pb-4 border-bottom-0">
-            <!-- <h5 class="modal-title">Modal title</h5> -->
-            <h2 class="fw-bold mb-0">Sign Up</h2>
-          </div>
-          <div class="modal-body p-5 pt-0">
-            <form class="">
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control rounded-4" id="floatingInput" name="username" placeholder="name@example.com">
-                <label for="floatingInput">Name</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="password" class="form-control rounded-4" id="floatingInput" name="password1" placeholder="name@example.com">
-                <label for="floatingInput">Password</label>
-              </div>
-              <div class="form-floating mb-3">
-                <input type="password" class="form-control rounded-4" id="floatingPassword" name="password2" placeholder="Password">
-                <label for="floatingPassword">Confirm Password</label>
-              </div>
-              <button class="w-100 mb-2 btn btn-lg rounded-4 btn-light" type="submit">Sign Up</button>   
-            </form>
-          </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-5 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <!-- <h5 class="modal-title">Modal title</h5> -->
+                    <h2 class="fw-bold mb-0">Sign Up</h2>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    <form class="">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-4" id="floatingInput" name="username" placeholder="name@example.com">
+                            <label for="floatingInput">Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-4" id="floatingInput" name="password1" placeholder="name@example.com">
+                            <label for="floatingInput">Password</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-4" id="floatingPassword" name="password2" placeholder="Password">
+                            <label for="floatingPassword">Confirm Password</label>
+                        </div>
+                        <button class="w-100 mb-2 btn btn-lg rounded-4 btn-light" type="submit">Sign Up</button>   
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </form>
+</form>
 </p>
 {% endblock %}

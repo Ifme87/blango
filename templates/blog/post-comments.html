@@ -8,13 +8,9 @@
 {% endrow %}
 
 {% row "border-bottom" %}
-    
     {% col %}
- 
-                <p>{{ comment.content }}</p>
-
+        <p>{{ comment.content }}</p>
     {% endcol %}
-    
 {% endrow %}
 
 {% empty %}
@@ -28,11 +24,11 @@
 {% if request.user.is_active %}
 <div class="row">
     <div class="col-6">
-{% row "mt-4" %}
-    {% col %}
-        {% crispy comment_form %}
-    {% endcol %}
-{% endrow %}
+        {% row "mt-4" %}
+            {% col %}
+                {% crispy comment_form %}
+            {% endcol %}
+        {% endrow %} 
+    </div>
+</div>
 {% endif %}
-</div>
-</div>

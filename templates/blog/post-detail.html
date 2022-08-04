@@ -1,40 +1,39 @@
 {% extends "base.html" %}
 {% load blog_extras cache %}
 
-
 {% block content %}
-<h2>{{ post.title }}</h2>
-<h6>Tags: {% for tag in post.tags.values %} '{{ tag.value }}' {% endfor %}</h6>
+    <h2>{{ post.title }}</h2>
+    <h6>Tags: {% for tag in post.tags.values %} '{{ tag.value }}' {% endfor %}</h6>
 
-{% row %}
-    {% col %}
-        {% include "blog/post-byline.html" %}
-    {% endcol %}
-{% endrow %}
-
-{% row %}
-    {% col %}
-        {{ post.content|safe }}
-    {% endcol %}
-{% endrow %}
-
-{% if post.author.profile %}
     {% row %}
         {% col %}
-            <h4>About the author</h4>
-            <p>{{ post.author.profile.bio }}</p>
+            {% include "blog/post-byline.html" %}
         {% endcol %}
     {% endrow %}
-{% endif %}
 
-{% include "blog/post-comments.html" %}
+    {% row %}
+        {% col %}
+            {{ post.content|safe }}
+        {% endcol %}
+    {% endrow %}
 
-{% row %}
-    {% col %}
-        {% cache 3600 recent_posts post %} <!-- last 'post' argument - cache specific for every post -->
-            {% recent_posts post %}
-        {% endcache %}
-    {% endcol %}
-{% endrow %}
+    {% if post.author.profile %}
+        {% row %}
+            {% col %}
+                <h4>About the author</h4>
+                <p>{{ post.author.profile.bio }}</p>
+            {% endcol %}
+        {% endrow %}
+    {% endif %}
+
+    {% include "blog/post-comments.html" %}
+
+    {% row %}
+        {% col %}
+            {% cache 3600 recent_posts post %} <!-- last 'post' argument - cache specific for every post -->
+                {% recent_posts post %}
+            {% endcache %}
+        {% endcol %}
+    {% endrow %}
 
 {% endblock %}

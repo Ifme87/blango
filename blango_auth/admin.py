@@ -38,4 +38,6 @@ class BlangoUserAdmin(UserAdmin):
     ordering = ("email",)
 
 
-admin.site.register(User, BlangoUserAdmin) #BlangoUserAdmin here customize Post class view in /admin
+admin.site.register(
+    User, BlangoUserAdmin
+)  # BlangoUserAdmin here customize Post class view in /admin

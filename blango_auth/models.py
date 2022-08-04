@@ -4,7 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
-class BlangoUserManager(UserManager): #customize UserManager
+
+class BlangoUserManager(UserManager):  # customize UserManager
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("Email must be set")
@@ -31,7 +32,7 @@ class BlangoUserManager(UserManager): #customize UserManager
         return self._create_user(email, password, **extra_fields)
 
 
-class User(AbstractUser): #customizing User model to get email as username 
+class User(AbstractUser):  # customizing User model to get email as username
     username = None
     email = models.EmailField(
         _("email address"),

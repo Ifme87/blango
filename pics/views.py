@@ -1,6 +1,10 @@
 from django.http import HttpResponse
 from django.views import View
-from django.shortcuts import render,redirect, get_object_or_404 #render - built in templater
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404,
+)  # render - built in templater
 from .owner import OwnerListView, OwnerDetailView, OwnerDeleteView
 from .models import *
 from .forms import CreateForm
@@ -9,20 +13,23 @@ from django.urls import reverse_lazy
 
 # Create your views here.
 
+
 class PicCreateView(LoginRequiredMixin, View):
-    template_name = 'pics/form.html'
-    success_url = reverse_lazy('all')
+    template_name = "pics/form.html"
+    success_url = reverse_lazy("all")
 
     def get(self, request, pk=None):
         form = CreateForm()
-        ctx = {'form': form} # in context we can send any variables in dict format, which will be seen in rendered .html pages
+        ctx = {
+            "form": form
+        }  # in context we can send any variables in dict format, which will be seen in rendered .html pages
         return render(request, self.template_name, ctx)
 
     def post(self, request, pk=None):
         form = CreateForm(request.POST, request.FILES or None)
 
         if not form.is_valid():
-            ctx = {'form': form}
+            ctx = {"form": form}
             return render(request, self.template_name, ctx)
 
         # Add owner to the model before saving
@@ -43,13 +50,13 @@ class PicDetailView(OwnerDetailView):
 
 
 class PicUpdateView(LoginRequiredMixin, View):
-    template_name = 'pics/form.html'
-    success_url = reverse_lazy('pics:all')
+    template_name = "pics/form.html"
+    success_url = reverse_lazy("pics:all")
 
     def get(self, request, pk):
         pic = get_object_or_404(Pic, id=pk, owner=self.request.user)
         form = CreateForm(instance=pic)
-        ctx = {'form': form}
+        ctx = {"form": form}
         return render(request, self.template_name, ctx)
 
     def post(self, request, pk=None):
@@ -57,7 +64,7 @@ class PicUpdateView(LoginRequiredMixin, View):
         form = CreateForm(request.POST, request.FILES or None, instance=pic)
 
         if not form.is_valid():
-            ctx = {'form': form}
+            ctx = {"form": form}
             return render(request, self.template_name, ctx)
 
         pic = form.save(commit=False)
@@ -74,7 +81,7 @@ class PicDeleteView(OwnerDeleteView):
 def stream_file(request, pk):
     pic = get_object_or_404(Pic, id=pk)
     response = HttpResponse()
-    response['Content-Type'] = pic.content_type
-    response['Content-Length'] = len(pic.picture)
+    response["Content-Type"] = pic.content_type
+    response["Content-Length"] = len(pic.picture)
     response.write(pic.picture)
     return response

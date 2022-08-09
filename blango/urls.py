@@ -31,5 +31,5 @@ urlpatterns = [
         name="django_registration_register",                                    #Django registration
     ),
     path("accounts/", include("django_registration.backends.activation.urls")), #include the two step activation URLs
-    
+    path("api/v1/", include("blog.api_urls")), #route to API requests
 ]

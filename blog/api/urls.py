@@ -51,6 +51,12 @@ urlpatterns += [
     ),
     #path for viewset, router
     path("", include(router.urls)),
+    #URL-based filtering
+    path(
+        "posts/by-time/<str:period_name>/",
+        PostViewSet.as_view({"get": "list"}),
+        name="posts-by-time",
+    ),
 ]
 
 #to be able to retrieve json with '.json' suffix in url

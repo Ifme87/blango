@@ -7,6 +7,7 @@ from blog.api.serializers import (
     TagSerializer,
 )
 from blog.api.permissions import AuthorModifyOrReadOnly, IsAdminUserForObject
+from blog.api.filters import PostFilterSet
 from rest_framework import generics, viewsets
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import action
@@ -21,7 +22,10 @@ from datetime import timedelta
 from django.http import Http404
 
 
+
 class PostViewSet(viewsets.ModelViewSet):
+    ordering_fields = ["published_at", "author", "title", "slug"]
+    filterset_class = PostFilterSet
     permission_classes = [AuthorModifyOrReadOnly | IsAdminUserForObject]
     queryset = Post.objects.all()
 
@@ -39,6 +43,13 @@ class PostViewSet(viewsets.ModelViewSet):
         if request.user.is_anonymous:
             raise PermissionDenied("You must be logged in to see which Posts are yours")
         posts = self.get_queryset().filter(author=request.user)
+
+        page = self.paginate_queryset(posts)
+
+        if page is not None:
+            serializer = PostSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+
         serializer = PostSerializer(posts, many=True, context={"request": request})
         return Response(serializer.data)
 
@@ -98,8 +109,22 @@ class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
 
     @action(methods=["get"], detail=True, name="Posts with the Tag")
+#    def posts(self, request, pk=None):
+#        tag = self.get_object()
+#        post_serializer = PostSerializer(
+#            tag.posts, many=True, context={"request": request}
+#        )
+#        return Response(post_serializer.data)
+
+#Here is with pagination
     def posts(self, request, pk=None):
         tag = self.get_object()
+        page = self.paginate_queryset(tag.posts.all())
+        if page is not None:
+            post_serializer = PostSerializer(
+                page, many=True, context={"request": request}
+            )
+            return self.get_paginated_response(post_serializer.data)
         post_serializer = PostSerializer(
             tag.posts, many=True, context={"request": request}
         )

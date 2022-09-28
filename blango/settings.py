@@ -53,11 +53,11 @@ class Dev(Configuration):
         'django.contrib.sites',
         'django.contrib.staticfiles',
 
+        'debug_toolbar',
         'blango_auth',
         'blog',
         'crispy_forms',
         'crispy_bootstrap5',
-        'debug_toolbar',
         'allauth',
         'allauth.account',
         'allauth.socialaccount',
@@ -66,6 +66,7 @@ class Dev(Configuration):
         'rest_framework.authtoken',
         'drf_yasg',
         'django_filters',
+        'versatileimagefield',
     ]
     
     REST_FRAMEWORK = {
@@ -121,7 +122,10 @@ class Dev(Configuration):
     #    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
 
-    INTERNAL_IPS = ['192.168.10.226']
+    INTERNAL_IPS = [
+      '192.168.10.226',
+      '127.0.0.1',
+    ]
 
     ROOT_URLCONF = 'blango.urls'
 
@@ -193,6 +197,8 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
     STATIC_URL = '/static/'
+    MEDIA_ROOT = BASE_DIR / "media"
+    MEDIA_URL = "/media/"
 
     # Default primary key field type
     # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

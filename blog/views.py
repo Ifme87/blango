@@ -48,6 +48,11 @@ def post_detail(request, slug):
         request, "blog/post-detail.html", {"post": post, "comment_form": comment_form}
     )
 
+
 def get_ip(request):
   from django.http import HttpResponse
   return HttpResponse(request.META['REMOTE_ADDR'])
+
+
+def post_table(request):
+    return render(request, "blog/post-table.html")

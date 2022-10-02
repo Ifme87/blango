@@ -20,6 +20,7 @@ from django_registration.backends.activation.views import RegistrationView
 from blango_auth.forms import BlangoRegistrationForm
 from django.conf.urls.static import static
 from django.conf import settings
+from blog.views import post_table
 
 
 urlpatterns = [
@@ -35,6 +36,7 @@ urlpatterns = [
     ),
     path("accounts/", include("django_registration.backends.activation.urls")), #include the two step activation URLs
     path("api/v1/", include("blog.api.urls")), #route to API requests
+    path("post-table/", post_table, name="blog-post-table"),
 ]
 
 if settings.DEBUG:
